@@ -178,9 +178,9 @@ span.element { color: green; }
 
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
-          previousPublishDate:  "2010-08-09",
+          previousPublishDate:  "2011-02-10",
           previousMaturity:  "unofficial",
-          previousURI:       "http://www.w3.org/2005/Incubator/webid/spec/drafts/ED-webid-20100809",
+          previousURI:       "http://www.w3.org/2005/Incubator/webid/spec/drafts/ED-webid-20110210",
 
 
           // if there a publicly available Editors Draft, this is the link
@@ -714,21 +714,22 @@ using HTTP over TLS [[!HTTP-TLS]] via the <tref>Verification Agent</tref>.</li>
 
 <li>The <tref>Verification Agent</tref> MUST request the
 <tref>Identification Certificate</tref> of the <tref>Identification Agent</tref>
-as a part of the TLS client-certificate retrieval protocol.</li>
+as a part of the TLS client-certificate retrieval protocol. This action proves that
+the <tref>Identification Agent</tref> is able to access the private key corresponding 
+to the public one published in the certificate.</li>
 
 <li>The <tref>Verification Agent</tref> MUST extract the <tref>public key</tref>
 and all the URI entries contained in the <code>Subject Alternative Name</code>
 extension of the <tref>Identification Certificate</tref>.
 An <tref>Identification Certificate</tref> MAY contain multiple URI entries
-which are considered claimed <tref>WebID URI</tref>s.</li>
-
+which are considered claimed <tref>WebID URI</tref>s. 
 <li>The <tref>Verification Agent</tref> MUST attempt to verify the
 <tref>public key</tref> information associated with at least one of the claimed
 <tref>WebID URI</tref>s. The <tref>Verification Agent</tref> MAY attempt to
 verify more than one claimed <tref>WebID URI</tref>.
 This verification process SHOULD occur either by dereferencing the
 <tref>WebID URI</tref> and
-extracting RDF data from the resulting document, or by utilizing a cached
+extracting RDF data from the resulting document, or by utilizing a valid cached
 version of the RDF data contained in the document or other data source that is
 up-to-date and trusted by the <tref>Verification Agent</tref>. The processing
 and extraction mechanism is further detailed in the sections titled
@@ -739,35 +740,14 @@ and extraction mechanism is further detailed in the sections titled
 <li>If the <tref>public key</tref> in the
 <tref>Identification Certificate</tref> is found in the list of
 <tref>public key</tref>s associated with the claimed <tref>WebID URI</tref>, the
-<tref>Verification Agent</tref> MUST assume that the client intends to use
-this <tref>public key</tref> to verify their ownership of the
-<tref>WebID URI</tref>.
-On the other hand, if no matching <tref>public key</tref> is found in the list
-of <tref>public key</tref>s associated with the claimed <tref>WebID URI</tref>,
-the <tref>Verification Agent</tref> MUST attempt to verify another claimed
-<tref>WebID URI</tref>. The authentication MUST fail if no matching
-<tref>public key</tref> is found among all the claimed
-<tref>WebID URI</tref>s.</li>
-
-<li>The <tref>Verification Agent</tref> verifies that the
-<tref>Identification Agent</tref> owns the private key corresponding to the
-public key  sent in the <tref>Identification Certificate</tref>.
-This SHOULD be fulfilled by performing TLS mutual-authentication
-between the <tref>Verification Agent</tref> and the
-<tref>Identification Agent</tref>.
-If the <tref>Verification Agent</tref> does not have access to the TLS layer,
-a digital signature challenge MUST be provided by the
-<tref>Verification Agent</tref>. These processes are detailed in the sections
-titled <a href="#authorization">Authorization</a> and
-<a href="#secure-communication">Secure Communication</a>.</li>
-
-<li>If the <tref>public key</tref> in the
-<tref>Identification Certificate</tref> matches one in the set given by the
-profile document graph given above then the <tref>Verification Agent</tref>
-knows that the <tref>Identification Agent</tref> is indeed identified by the
-<tref>WebID URI</tref>. The verification is done by querying the
+<tref>Verification Agent</tref> WebID can be placed in a list of verified 
+WebIDs. The verification is done by querying the
 Personal Profile graph as specified in
-<a href="#extracting-webid-uri-details">querying the RDF graph</a>.</li>
+<a href="#extracting-webid-uri-details">querying the RDF graph</a>.
+</li>
+<li>If one of the authenticated WebIDs is authorized to access the resource requested,
+the Verification Server SHOULD serve that resource.
+</li>
 </ol>
 
 <p>
